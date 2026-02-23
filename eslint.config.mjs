@@ -26,5 +26,17 @@ export default defineConfig([
         rules: {
             "no-unused-vars": "off"
         }
+    },
+
+    // Config pour les tests Jest
+    {
+        files: ["tests/**/*.js"], // ou "**/*.test.js"
+        languageOptions: {
+            globals: {
+                ...globals.node,
+                ...globals.es2021,
+                ...globals.jest
+            }
+        }
     }
 ]);

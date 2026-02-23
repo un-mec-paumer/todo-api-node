@@ -1,37 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1771855740829" clover="3.2.0">
-  <project timestamp="1771855740829" name="All files">
-    <metrics statements="121" coveredstatements="89" conditionals="40" coveredconditionals="28" methods="20" coveredmethods="12" elements="181" coveredelements="129" complexity="0" loc="121" ncloc="121" packages="3" files="3" classes="3"/>
-    <package name="todo-api-node">
-      <metrics statements="23" coveredstatements="11" conditionals="4" coveredconditionals="1" methods="5" coveredmethods="0"/>
-      <file name="app.js" path="/home/hugo/IdeaProjects/todo-api-node/app.js">
-        <metrics statements="23" coveredstatements="11" conditionals="4" coveredconditionals="1" methods="5" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="10" count="1" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="16" count="1" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="20" count="1" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="25" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="36" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="37" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="38" count="0" type="stmt"/>
-        <line num="41" count="1" type="stmt"/>
-      </file>
-    </package>
-    <package name="todo-api-node.database">
+<coverage generated="1771860172743" clover="3.2.0">
+  <project timestamp="1771860172743" name="All files">
+    <metrics statements="98" coveredstatements="82" conditionals="36" coveredconditionals="32" methods="15" coveredmethods="13" elements="149" coveredelements="127" complexity="0" loc="98" ncloc="98" packages="2" files="2" classes="2"/>
+    <package name="database">
       <metrics statements="19" coveredstatements="18" conditionals="6" coveredconditionals="4" methods="2" coveredmethods="2"/>
       <file name="database.js" path="/home/hugo/IdeaProjects/todo-api-node/database/database.js">
         <metrics statements="19" coveredstatements="18" conditionals="6" coveredconditionals="4" methods="2" coveredmethods="2"/>
@@ -40,7 +11,7 @@
         <line num="3" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
-        <line num="12" count="11" type="cond" truecount="2" falsecount="0"/>
+        <line num="12" count="29" type="cond" truecount="2" falsecount="0"/>
         <line num="13" count="1" type="stmt"/>
         <line num="14" count="1" type="stmt"/>
         <line num="15" count="1" type="cond" truecount="1" falsecount="1"/>
@@ -49,32 +20,32 @@
         <line num="19" count="0" type="stmt"/>
         <line num="21" count="1" type="stmt"/>
         <line num="29" count="1" type="stmt"/>
-        <line num="33" count="8" type="cond" truecount="1" falsecount="1"/>
-        <line num="34" count="8" type="stmt"/>
-        <line num="35" count="8" type="stmt"/>
-        <line num="36" count="8" type="stmt"/>
+        <line num="33" count="22" type="cond" truecount="1" falsecount="1"/>
+        <line num="34" count="22" type="stmt"/>
+        <line num="35" count="22" type="stmt"/>
+        <line num="36" count="22" type="stmt"/>
         <line num="40" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="todo-api-node.routes">
-      <metrics statements="79" coveredstatements="60" conditionals="30" coveredconditionals="23" methods="13" coveredmethods="10"/>
+    <package name="routes">
+      <metrics statements="79" coveredstatements="64" conditionals="30" coveredconditionals="28" methods="13" coveredmethods="11"/>
       <file name="todo.js" path="/home/hugo/IdeaProjects/todo-api-node/routes/todo.js">
-        <metrics statements="79" coveredstatements="60" conditionals="30" coveredconditionals="23" methods="13" coveredmethods="10"/>
+        <metrics statements="79" coveredstatements="64" conditionals="30" coveredconditionals="28" methods="13" coveredmethods="11"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
-        <line num="8" count="7" type="cond" truecount="2" falsecount="0"/>
-        <line num="9" count="7" type="cond" truecount="2" falsecount="0"/>
+        <line num="8" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="9" count="8" type="cond" truecount="2" falsecount="0"/>
         <line num="10" count="1" type="stmt"/>
-        <line num="12" count="6" type="stmt"/>
-        <line num="13" count="6" type="stmt"/>
-        <line num="14" count="6" type="stmt"/>
-        <line num="15" count="6" type="stmt"/>
-        <line num="16" count="6" type="stmt"/>
-        <line num="17" count="6" type="stmt"/>
-        <line num="18" count="6" type="stmt"/>
-        <line num="19" count="6" type="stmt"/>
+        <line num="12" count="7" type="stmt"/>
+        <line num="13" count="7" type="stmt"/>
+        <line num="14" count="7" type="stmt"/>
+        <line num="15" count="7" type="stmt"/>
+        <line num="16" count="7" type="stmt"/>
+        <line num="17" count="7" type="stmt"/>
+        <line num="18" count="7" type="stmt"/>
+        <line num="19" count="7" type="stmt"/>
         <line num="23" count="1" type="stmt"/>
         <line num="24" count="1" type="cond" truecount="2" falsecount="0"/>
         <line num="25" count="1" type="cond" truecount="2" falsecount="0"/>
@@ -84,14 +55,14 @@
         <line num="29" count="1" type="stmt"/>
         <line num="30" count="1" type="stmt"/>
         <line num="34" count="1" type="stmt"/>
-        <line num="35" count="1" type="stmt"/>
-        <line num="36" count="1" type="stmt"/>
-        <line num="37" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="35" count="2" type="stmt"/>
+        <line num="36" count="2" type="stmt"/>
+        <line num="37" count="2" type="cond" truecount="4" falsecount="0"/>
         <line num="38" count="1" type="stmt"/>
         <line num="42" count="1" type="stmt"/>
-        <line num="43" count="1" type="stmt"/>
-        <line num="44" count="1" type="stmt"/>
-        <line num="45" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="43" count="2" type="stmt"/>
+        <line num="44" count="2" type="stmt"/>
+        <line num="45" count="2" type="cond" truecount="4" falsecount="0"/>
         <line num="47" count="1" type="stmt"/>
         <line num="48" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="49" count="1" type="cond" truecount="2" falsecount="0"/>
@@ -101,28 +72,28 @@
         <line num="54" count="1" type="stmt"/>
         <line num="55" count="1" type="stmt"/>
         <line num="59" count="1" type="stmt"/>
-        <line num="60" count="1" type="stmt"/>
-        <line num="61" count="1" type="stmt"/>
-        <line num="62" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="60" count="2" type="stmt"/>
+        <line num="61" count="2" type="stmt"/>
+        <line num="62" count="2" type="cond" truecount="4" falsecount="0"/>
         <line num="63" count="1" type="stmt"/>
         <line num="64" count="1" type="stmt"/>
         <line num="65" count="1" type="stmt"/>
         <line num="69" count="1" type="stmt"/>
-        <line num="70" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="71" count="0" type="stmt"/>
-        <line num="73" count="0" type="stmt"/>
-        <line num="74" count="0" type="stmt"/>
-        <line num="79" count="9" type="stmt"/>
-        <line num="80" count="9" type="stmt"/>
-        <line num="81" count="9" type="stmt"/>
-        <line num="82" count="36" type="stmt"/>
-        <line num="83" count="9" type="stmt"/>
-        <line num="87" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="88" count="1" type="stmt"/>
-        <line num="89" count="1" type="stmt"/>
-        <line num="90" count="2" type="stmt"/>
-        <line num="91" count="8" type="stmt"/>
-        <line num="92" count="2" type="stmt"/>
+        <line num="70" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="71" count="2" type="stmt"/>
+        <line num="73" count="2" type="stmt"/>
+        <line num="74" count="2" type="stmt"/>
+        <line num="79" count="10" type="stmt"/>
+        <line num="80" count="10" type="stmt"/>
+        <line num="81" count="10" type="stmt"/>
+        <line num="82" count="40" type="stmt"/>
+        <line num="83" count="10" type="stmt"/>
+        <line num="87" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="88" count="2" type="stmt"/>
+        <line num="89" count="2" type="stmt"/>
+        <line num="90" count="3" type="stmt"/>
+        <line num="91" count="12" type="stmt"/>
+        <line num="92" count="3" type="stmt"/>
         <line num="97" count="0" type="stmt"/>
         <line num="98" count="0" type="stmt"/>
         <line num="99" count="0" type="stmt"/>
