@@ -29,7 +29,6 @@ describe("Todo API - couverture maximale", () => {
         expect(res.status).toBe(201);
         expect(res.body.id).toBeDefined();
         expect(res.body.title).toBe("Test Todo");
-        createdId = res.body.id;
     });
 
     test("POST /todos sans title renvoie 422", async () => {

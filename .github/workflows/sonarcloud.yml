@@ -1,0 +1,32 @@
+name: soncarcloud-scan
+on:
+    pull_request:
+        branches: [main, default]
+
+jobs:
+    sonarcloud:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                node-version: 20
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Run SonarCloud Scan
+              uses: sonarsource/sonarcloud-github-action@master
+              env:
+                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            
+              with:
+                args: >
+                  -Dsonar.projectKey=un-mec-paumer_todo-api-node
+                  -Dsonar.organization=un-mec-paumer
+                  -Dsonar.host.url=https://sonarcloud.io
+                  -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+                projectBaseDir: .
