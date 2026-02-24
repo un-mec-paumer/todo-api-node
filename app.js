@@ -1,3 +1,5 @@
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./docs/swagger");
 const express = require("express");
 const todoRouter = require("./routes/todo");
 
@@ -6,6 +8,8 @@ const API_KEY = process.env.API_KEY || "dev_api_key";
 
 const app = express();
 app.use(express.json());
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get("/", (_req, res) => {
   console.log("someone hit the root endpoint")
@@ -22,20 +26,6 @@ app.get("/health", (_req, res) => {
 });
 
 app.use("/todos", todoRouter);
-
-function unusedHelper() {
-  const x = 42;
-  const tmp = x * 2;
-  return tmp;
-}
-
-function anotherDeadFunction(data) {
-  const result = [];
-  for (let i = 0; i < data.length; i++) {
-    result.push(data[i]);
-  }
-  return result;
-}
 
 if (require.main === module) {
   const PORT = process.env.PORT || 3000;

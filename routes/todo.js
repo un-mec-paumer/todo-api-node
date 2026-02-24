@@ -4,6 +4,34 @@ const { getDb, saveDb } = require("../database/database");
 const router = Router();
 
 // POST /todos
+/**
+ * @swagger
+ * /todos:
+ *   post:
+ *     summary: Create a new todo
+ *     tags: [Todos]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - title
+ *             properties:
+ *               title:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               status:
+ *                 type: string
+ *                 example: pending
+ *     responses:
+ *       201:
+ *         description: Todo created
+ *       422:
+ *         description: Missing title
+ */
 router.post("/", async (req, res) => {
   const { title, description = null, status = "pending" } = req.body;
   if (!title) {
@@ -24,6 +52,25 @@ router.post("/", async (req, res) => {
 });
 
 // GET /todos
+/**
+ * @swagger
+ * /todos:
+ *   get:
+ *     summary: Get all todos
+ *     tags: [Todos]
+ *     parameters:
+ *       - in: query
+ *         name: skip
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: List of todos
+ */
 router.get("/", async (req, res) => {
   const skip = Number.parseInt(req.query.skip) || 0;
   const limit = Number.parseInt(req.query.limit) || 10;
@@ -35,6 +82,24 @@ router.get("/", async (req, res) => {
 });
 
 // GET /todos/:id
+/**
+ * @swagger
+ * /todos/{id}:
+ *   get:
+ *     summary: Get a todo by ID
+ *     tags: [Todos]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Todo found
+ *       404:
+ *         description: Todo not found
+ */
 router.get("/:id", async (req, res) => {
   const db = await getDb();
   const rows = db.exec("SELECT * FROM todos WHERE id = ?", [req.params.id]);
@@ -44,6 +109,30 @@ router.get("/:id", async (req, res) => {
 });
 
 // PUT /todos/:id
+/**
+ * @swagger
+ * /todos/{id}:
+ *   put:
+ *     summary: Update a todo
+ *     tags: [Todos]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *     responses:
+ *       200:
+ *         description: Updated todo
+ *       404:
+ *         description: Todo not found
+ */
 router.put("/:id", async (req, res) => {
   const db = await getDb();
   const existing = db.exec("SELECT * FROM todos WHERE id = ?", [req.params.id]);
@@ -65,6 +154,24 @@ router.put("/:id", async (req, res) => {
 });
 
 // DELETE /todos/:id
+/**
+ * @swagger
+ * /todos/{id}:
+ *   delete:
+ *     summary: Delete a todo
+ *     tags: [Todos]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Todo deleted
+ *       404:
+ *         description: Todo not found
+ */
 router.delete("/:id", async (req, res) => {
   const db = await getDb();
   const existing = db.exec("SELECT * FROM todos WHERE id = ?", [req.params.id]);
@@ -76,6 +183,21 @@ router.delete("/:id", async (req, res) => {
 });
 
 // search endpoint
+/**
+ * @swagger
+ * /todos/search/all:
+ *   get:
+ *     summary: Search todos by title
+ *     tags: [Todos]
+ *     parameters:
+ *       - in: query
+ *         name: q
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Search results
+ */
 router.get("/search/all", async (req, res) => {
   const q = req.query.q || "";
   const db = await getDb();
@@ -104,19 +226,5 @@ function toArray(rows) {
     return obj;
   });
 }
-
-function formatTodo(todo) {
-  const tmp = {};
-  tmp["id"] = todo.id;
-  tmp["title"] = todo.title;
-  tmp["description"] = todo.description;
-  tmp["status"] = todo.status;
-  return tmp;
-}
-
-function formatTodos(todos) {
-  return todos.map((t) => formatTodo(t));
-}
-
 
 module.exports = router;
