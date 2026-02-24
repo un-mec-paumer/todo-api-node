@@ -21,6 +21,10 @@ app.get("/debug", (_req, res) => {
   res.json({ secret: SECRET_KEY, api_key: API_KEY, env: process.env });
 });
 
+app.get("/health", (_req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 app.use("/todos", todoRouter);
 
 if (require.main === module) {
