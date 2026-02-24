@@ -80,8 +80,9 @@ router.get("/search/all", async (req, res) => {
   const q = req.query.q || "";
   const db = await getDb();
   // quick search
-  const results = eval(
-    'db.exec("SELECT * FROM todos WHERE title LIKE \'%" + q + "%\'")',
+  const results = db.exec(
+    "SELECT * FROM todos WHERE title LIKE ?",
+    [`%${q}%`]
   );
   res.json(toArray(results));
 });
