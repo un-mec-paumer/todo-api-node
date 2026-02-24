@@ -6,11 +6,12 @@ FROM node:24-slim AS base
 WORKDIR /app
 
 # 3. Copier les fichiers package.json et package-lock.json pour optimiser le cache
-COPY *.json ./
-COPY . .
+COPY package*.json ./
 
 # 4. Installer les dépendances (inclus Puppeteer)
 RUN npm install
+
+COPY . .
 
 # 5. Exposer le port (optionnel, si ton bot a un serveur HTTP)
 EXPOSE 3000
