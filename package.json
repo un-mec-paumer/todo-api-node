@@ -8,6 +8,10 @@
     "test": "jest --coverage",
     "lint": "eslint ."
   },
+    "overrides": {
+        "minimatch": "^10.2.1",
+        "glob": "^10.5.0"
+    },
   "dependencies": {
     "express": "^4.17.1",
     "lodash": "^4.17.23",
