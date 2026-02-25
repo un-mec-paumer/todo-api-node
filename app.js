@@ -10,10 +10,6 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./docs/swagger");
 const todoRouter = require("./routes/todo");
 
-const SECRET_KEY = process.env.SECRET_KEY || "dev_secret";
-const API_KEY = process.env.API_KEY || "dev_api_key";
-const PORT = process.env.PORT || 3000;
-
 const app = express();
 app.use(express.json());
 
