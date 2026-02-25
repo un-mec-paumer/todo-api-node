@@ -114,7 +114,7 @@ jobs:
           -e DB_PASSWORD=${{ secrets.DB_PASSWORD_PROD }} \
           -e SECRET_KEY=${{ secrets.SECRET_KEY_PROD }} \
           -e API_KEY=${{ secrets.API_KEY_PROD }} \
-          ghcr.io/${{ github.repository }}:latest
+          ghcr.io/un-mec-paumer/${{ github.repository }}:latest
 
   # ────────── Post Deploy Health Check ──────────
   post-deploy:
