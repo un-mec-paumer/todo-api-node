@@ -75,10 +75,10 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Docker image
-        run: docker build -t ghcr.io/${{ github.repository }}:latest .
+        run: docker build -t ghcr.io/un-mec-paumer/${{ github.repository }}:latest .
 
       - name: Push Docker image
-        run: docker push ghcr.io/${{ github.repository }}:latest
+        run: docker push ghcr.io/un-mec-paumer/${{ github.repository }}:latest
 
   # ────────── Deploy Staging ──────────
   deploy-staging:
@@ -96,7 +96,7 @@ jobs:
           -e DB_PASSWORD=${{ secrets.DB_PASSWORD_STAGING }} \
           -e SECRET_KEY=${{ secrets.SECRET_KEY_STAGING }} \
           -e API_KEY=${{ secrets.API_KEY_STAGING }} \
-          ghcr.io/${{ github.repository }}:latest
+          ghcr.io/un-mec-paumer/${{ github.repository }}:latest
 
   # ────────── Deploy Production ──────────
   deploy-production:
