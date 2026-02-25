@@ -7,6 +7,13 @@
 ![ESLint](https://img.shields.io/badge/Lint-ESLint-4B32C3?logo=eslint&logoColor=white)
 ![CI](https://img.shields.io/badge/CI-GitHub%20Actions-2088FF?logo=github-actions&logoColor=white)
 ![Deploy](https://img.shields.io/badge/Deploy-Render-46E3B7?logo=render&logoColor=black)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=un-mec-paumer_todo-api-node&metric=coverage)](https://sonarcloud.io/summary/new_code?id=un-mec-paumer_todo-api-node)
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=un-mec-paumer_todo-api-node)](https://sonarcloud.io/summary/new_code?id=un-mec-paumer_todo-api-node)
+[![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-light.svg)](https://sonarcloud.io/summary/new_code?id=un-mec-paumer_todo-api-node)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=un-mec-paumer_todo-api-node&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=un-mec-paumer_todo-api-node)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=un-mec-paumer_todo-api-node&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=un-mec-paumer_todo-api-node)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=un-mec-paumer_todo-api-node&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=un-mec-paumer_todo-api-node)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=un-mec-paumer_todo-api-node&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=un-mec-paumer_todo-api-node)
 
 API REST CRUD de gestion de todos développée en **JavaScript** avec **Node.js** et **Express**.
 
