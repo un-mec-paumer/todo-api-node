@@ -4,7 +4,7 @@ const path = require("node:path");
 
 // On lit les secrets depuis les variables d'environnement
 const DB_PATH = process.env.DB_PATH || path.join(__dirname, "..", "todo.db");
-const DB_PASSWORD = process.env.DB_PASSWORD; // plus de hardcoding
+const DB_PASSWORD = process.env.DB_PASSWORD;
 
 let db;
 
