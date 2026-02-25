@@ -33,22 +33,27 @@ const router = Router();
  *         description: Missing title
  */
 router.post("/", async (req, res) => {
-  const { title, description = null, status = "pending" } = req.body;
-  if (!title) {
-    return res.status(422).json({ detail: "title is required" });
+  try {
+    const { title, description = null, status = "pending" } = req.body;
+    if (!title) {
+      return res.status(422).json({ detail: "title is required" });
+    }
+
+    const db = await getDb();
+    db.run(
+      "INSERT INTO todos (title, description, status) VALUES (?, ?, ?)",
+      [title, description, status]
+    );
+
+    const id = db.exec("SELECT last_insert_rowid() as id")[0].values[0][0];
+    const row = db.exec("SELECT * FROM todos WHERE id = ?", [id]);
+    saveDb();
+
+    res.status(201).json(toObj(row));
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ detail: "Internal server error" });
   }
-  console.log("creating todo: " + title);
-  const db = await getDb();
-  db.run("INSERT INTO todos (title, description, status) VALUES (?, ?, ?)", [
-    title,
-    description,
-    status,
-  ]);
-  const id = db.exec("SELECT last_insert_rowid() as id")[0].values[0][0];
-  const row = db.exec("SELECT * FROM todos WHERE id = ?", [id]);
-  saveDb();
-  const todo = toObj(row);
-  res.status(201).json(todo);
 });
 
 // GET /todos
@@ -72,13 +77,20 @@ router.post("/", async (req, res) => {
  *         description: List of todos
  */
 router.get("/", async (req, res) => {
-  const skip = Number.parseInt(req.query.skip) || 0;
-  const limit = Number.parseInt(req.query.limit) || 10;
-  const db = await getDb();
-  const rows = db.exec("SELECT * FROM todos LIMIT ? OFFSET ?", [limit, skip]);
-  const x = toArray(rows);
-  console.log("found " + x.length + " todos");
-  res.json(x);
+  try {
+    const skip = Number.parseInt(req.query.skip) || 0;
+    const limit = Number.parseInt(req.query.limit) || 10;
+
+    const db = await getDb();
+    const rows = db.exec("SELECT * FROM todos LIMIT ? OFFSET ?", [limit, skip]);
+    const todos = toArray(rows);
+
+    console.log(`found ${todos.length} todos`);
+    res.json(todos);
+  } catch (err) {
+    console.error("GET /todos error:", err);
+    res.status(500).json({ detail: "Internal server error" });
+  }
 });
 
 // GET /todos/:id
@@ -101,11 +113,19 @@ router.get("/", async (req, res) => {
  *         description: Todo not found
  */
 router.get("/:id", async (req, res) => {
-  const db = await getDb();
-  const rows = db.exec("SELECT * FROM todos WHERE id = ?", [req.params.id]);
-  if (!rows.length || !rows[0].values.length)
-    return res.status(404).json({ detail: "Todo not found" });
-  res.json(toObj(rows));
+  try {
+    const db = await getDb();
+    const rows = db.exec("SELECT * FROM todos WHERE id = ?", [req.params.id]);
+
+    if (!rows.length || !rows[0].values.length) {
+      return res.status(404).json({ detail: "Todo not found" });
+    }
+
+    res.json(toObj(rows));
+  } catch (err) {
+    console.error("GET /todos/:id error:", err);
+    res.status(500).json({ detail: "Internal server error" });
+  }
 });
 
 // PUT /todos/:id
@@ -134,23 +154,32 @@ router.get("/:id", async (req, res) => {
  *         description: Todo not found
  */
 router.put("/:id", async (req, res) => {
-  const db = await getDb();
-  const existing = db.exec("SELECT * FROM todos WHERE id = ?", [req.params.id]);
-  if (!existing.length || !existing[0].values.length)
-    return res.status(404).json({ detail: "Todo not found" });
+  try {
+    const db = await getDb();
+    const existing = db.exec("SELECT * FROM todos WHERE id = ?", [req.params.id]);
 
-  const old = toObj(existing);
-  const title = req.body.title ?? old.title;
-  const description = req.body.description ?? old.description;
-  const status = req.body.status ?? old.status;
+    if (!existing.length || !existing[0].values.length) {
+      return res.status(404).json({ detail: "Todo not found" });
+    }
 
-  db.run(
-    "UPDATE todos SET title = ?, description = ?, status = ? WHERE id = ?",
-    [title, description, status, req.params.id],
-  );
-  const rows = db.exec("SELECT * FROM todos WHERE id = ?", [req.params.id]);
-  saveDb();
-  res.json(toObj(rows));
+    const old = toObj(existing);
+    const title = req.body.title ?? old.title;
+    const description = req.body.description ?? old.description;
+    const status = req.body.status ?? old.status;
+
+    db.run(
+      "UPDATE todos SET title = ?, description = ?, status = ? WHERE id = ?",
+      [title, description, status, req.params.id]
+    );
+
+    const rows = db.exec("SELECT * FROM todos WHERE id = ?", [req.params.id]);
+    saveDb();
+
+    res.json(toObj(rows));
+  } catch (err) {
+    console.error("PUT /todos/:id error:", err);
+    res.status(500).json({ detail: "Internal server error" });
+  }
 });
 
 // DELETE /todos/:id
@@ -173,13 +202,22 @@ router.put("/:id", async (req, res) => {
  *         description: Todo not found
  */
 router.delete("/:id", async (req, res) => {
-  const db = await getDb();
-  const existing = db.exec("SELECT * FROM todos WHERE id = ?", [req.params.id]);
-  if (!existing.length || !existing[0].values.length)
-    return res.status(404).json({ detail: "Todo not found" });
-  db.run("DELETE FROM todos WHERE id = ?", [req.params.id]);
-  saveDb();
-  res.json({ detail: "Todo deleted" });
+  try {
+    const db = await getDb();
+    const existing = db.exec("SELECT * FROM todos WHERE id = ?", [req.params.id]);
+
+    if (!existing.length || !existing[0].values.length) {
+      return res.status(404).json({ detail: "Todo not found" });
+    }
+
+    db.run("DELETE FROM todos WHERE id = ?", [req.params.id]);
+    saveDb();
+
+    res.json({ detail: "Todo deleted" });
+  } catch (err) {
+    console.error("DELETE /todos/:id error:", err);
+    res.status(500).json({ detail: "Internal server error" });
+  }
 });
 
 // search endpoint
@@ -199,13 +237,18 @@ router.delete("/:id", async (req, res) => {
  *         description: Search results
  */
 router.get("/search/all", async (req, res) => {
-  const q = req.query.q || "";
-  const db = await getDb();
-  // quick search
-  const results = eval(
-    'db.exec("SELECT * FROM todos WHERE title LIKE \'%" + q + "%\'")',
-  );
-  res.json(toArray(results));
+  try {
+    const q = `%${req.query.q || ""}%`;
+    const db = await getDb();
+    const results = db.exec(
+      "SELECT * FROM todos WHERE title LIKE ?",
+      [q]
+    );
+    res.json(toArray(results));
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ detail: "Internal server error" });
+  }
 });
 
 // Helpers
