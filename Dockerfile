@@ -9,7 +9,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # 4. Installer les dépendances (inclus Puppeteer)
-RUN npm install
+RUN npm install --ignore-scripts
 
 COPY . .
 
