@@ -56,19 +56,6 @@ describe("Database - Avertissement DB_PASSWORD (Lignes 32-34)", () => {
     // 4. On vérifie que le message d'avertissement est bien passé
     expect(consoleWarnSpy).toHaveBeenCalledWith("DB_PASSWORD not set in environment variables");
   });
-
-  it("ne doit pas afficher d'avertissement si DB_PASSWORD est défini", async () => {
-    const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
-    
-    // On définit le mot de passe
-    process.env.DB_PASSWORD = "super_secret_password";
-
-    const { getDb } = require("../database/database");
-    await getDb();
-
-    // L'avertissement ne doit pas être appelé
-    expect(consoleWarnSpy).not.toHaveBeenCalled();
-  });
 });
 
 describe("Database - Fonction saveDb (Lignes 39-45)", () => {

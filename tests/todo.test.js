@@ -111,3 +111,65 @@ describe("Todo API - couverture maximale", () => {
         expect(() => dbModule.saveDb()).not.toThrow();
     });
 });
+
+describe("Todo API - Gestion des erreurs serveur (500)", () => {
+    let db;
+    let execSpy;
+    let runSpy;
+    let consoleErrorSpy;
+
+    beforeAll(async () => {
+        // 1. On récupère la VRAIE instance de la base de données
+        const { getDb } = require("../database/database");
+        db = await getDb();
+        
+        // 2. On sabote les requêtes SQL (exec et run) pour qu'elles lancent une erreur
+        execSpy = jest.spyOn(db, "exec").mockImplementation(() => {
+            throw new Error("Erreur SQL simulée (exec)");
+        });
+        runSpy = jest.spyOn(db, "run").mockImplementation(() => {
+            throw new Error("Erreur SQL simulée (run)");
+        });
+        
+        // 3. On masque les erreurs console pour garder un terminal propre
+        consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+    });
+
+    afterAll(() => {
+        // 4. IMPORTANT : on répare la base de données pour les autres tests potentiels
+        execSpy.mockRestore();
+        runSpy.mockRestore();
+        consoleErrorSpy.mockRestore();
+    });
+
+    test("POST /todos déclenche une erreur 500 si la DB plante", async () => {
+        const res = await request(app).post("/todos").send({title: "Plante STP"});
+        expect(res.status).toBe(500);
+        expect(res.body.detail).toBe("Internal server error");
+    });
+
+    test("GET /todos déclenche une erreur 500 si la DB plante", async () => {
+        const res = await request(app).get("/todos");
+        expect(res.status).toBe(500);
+    });
+
+    test("GET /todos/:id déclenche une erreur 500 si la DB plante", async () => {
+        const res = await request(app).get("/todos/1");
+        expect(res.status).toBe(500);
+    });
+
+    test("PUT /todos/:id déclenche une erreur 500 si la DB plante", async () => {
+        const res = await request(app).put("/todos/1").send({title: "Update"});
+        expect(res.status).toBe(500);
+    });
+
+    test("DELETE /todos/:id déclenche une erreur 500 si la DB plante", async () => {
+        const res = await request(app).delete("/todos/1");
+        expect(res.status).toBe(500);
+    });
+
+    test("GET /search/all déclenche une erreur 500 si la DB plante", async () => {
+        const res = await request(app).get("/todos/search/all").query({q: "test"});
+        expect(res.status).toBe(500);
+    });
+});
