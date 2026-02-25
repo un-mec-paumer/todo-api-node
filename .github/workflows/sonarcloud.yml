@@ -1,39 +1,45 @@
-name: soncarcloud-scan
+name: sonarcloud-scan
 on:
-    pull_request:
-        branches: [main, default]
+    push:
+        branches: [main, fix-sonarcloud, default]
+    
 
 jobs:
-    sonarcloud:
+    quality-gate:
         runs-on: ubuntu-latest
-        permissions:
-            contents: read
-            pull-requests: write
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
-
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
-              with:
-                node-version: 20
-
-            - name: Install dependencies
-              run: npm install
-
-            - name: Test and generate coverage report
-              run: npm run test
-
-            - name: Run SonarCloud Scan
-              uses: sonarsource/sonarcloud-github-action@master
-              env:
+          - name: Checkout code
+            uses: actions/checkout@v6
+          - name: Set up Node.js
+            uses: actions/setup-node@v6
+            with:
+                node-version: 24
+          - name: Install Dependencies
+            run: npm install
+          - name: SonarCloud Scan
+            uses: SonarSource/sonarqube-scan-action@v7.0.0
+            env:
                 SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-            
-              with:
-                args: >
-                  -Dsonar.projectKey=un-mec-paumer_todo-api-node
-                  -Dsonar.organization=un-mec-paumer
-                  -Dsonar.host.url=https://sonarcloud.io
-                  -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-                  -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
-                projectBaseDir: .
+                SONAR_HOST_URL: https://sonarcloud.io
+
+    security-scan:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout code
+            uses: actions/checkout@v6
+          - name: Set up Node.js
+            uses: actions/setup-node@v6
+            with:
+                node-version: 24
+          - name: Install Dependencies
+            run: npm ci
+          - name: Build Docker image
+            run: docker build -t todo-app:latest .
+          - name: Run Trivy
+            uses: aquasecurity/trivy-action@0.34.1
+            with:
+                image-ref: "todo-app:latest"
+                format: "table"
+                exit-code: 1
+                ignore-unfixed: true
+                severity: "CRITICAL"
