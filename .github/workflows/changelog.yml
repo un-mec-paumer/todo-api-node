@@ -4,7 +4,7 @@ on:
     types: [created, edited]
 
 jobs:
-  auto-changelog:
+  auto-changelog-release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
