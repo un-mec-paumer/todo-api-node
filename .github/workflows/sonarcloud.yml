@@ -1,7 +1,7 @@
 name: sonarcloud-scan
 on:
-    push:
-        branches: [main, fix-sonarcloud, default]
+    pull_request:
+        branches: [main, default]
     
 
 jobs:

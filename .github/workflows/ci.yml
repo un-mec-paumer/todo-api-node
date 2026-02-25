@@ -2,8 +2,9 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [main, fix-sonarcloud, default]
+    branches: [main]
   pull_request:
+    branches: [main]
 
 jobs:
   test:
