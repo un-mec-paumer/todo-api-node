@@ -1,9 +1,5 @@
 name: sonarcloud-scan
-on:
-    pull_request:
-        branches: [main, default]
-    
-
+on: workflow_call
 jobs:
     quality-gate:
         runs-on: ubuntu-latest
