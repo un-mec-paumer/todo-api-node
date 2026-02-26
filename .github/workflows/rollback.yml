@@ -1,0 +1,27 @@
+name: Rollback Deployment
+
+on:
+  workflow_dispatch:
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Get previous commit SHA
+        id: prev
+        run: echo "SHA=$(git rev-parse HEAD^)" >> $GITHUB_OUTPUT
+
+      - name: Pull previous Docker image
+        run: docker pull ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ steps.prev.outputs.SHA }}
+
+      - name: Rollback deployment
+        run: |
+          docker stop app || true
+          docker rm app || true
+          docker run -d -p 3000:3000 -e NODE_ENV=production -e DB_PASSWORD=${{ secrets.DB_PASSWORD_PROD }} -e SECRET_KEY=${{ secrets.SECRET_KEY_PROD }} -e API_KEY=${{ secrets.API_KEY_PROD }} ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ steps.prev.outputs.SHA }}
