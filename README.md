@@ -14,6 +14,8 @@
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=un-mec-paumer_todo-api-node&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=un-mec-paumer_todo-api-node)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=un-mec-paumer_todo-api-node&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=un-mec-paumer_todo-api-node)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=un-mec-paumer_todo-api-node&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=un-mec-paumer_todo-api-node)
+[![UptimeRobot Status](https://img.shields.io/uptimerobot/status/m802431958-77e54ce58517a12674e849a8)](https://stats.uptimerobot.com/m802431958-77e54ce58517a12674e849a8)
+[![UptimeRobot Uptime Ratio](https://img.shields.io/uptimerobot/ratio/m802431958-77e54ce58517a12674e849a8)](https://stats.uptimerobot.com/m802431958-77e54ce58517a12674e849a8)
 
 API REST CRUD de gestion de todos développée en **JavaScript** avec **Node.js** et **Express**.
 
