@@ -92,8 +92,32 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Deploy to Staging
-        run: docker run -d -p 3001:3000 -e NODE_ENV=staging -e DB_PASSWORD=${{ secrets.DB_PASSWORD_STAGING }} -e SECRET_KEY=${{ secrets.SECRET_KEY_STAGING }} -e API_KEY=${{ secrets.API_KEY_STAGING }} ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
+      - name: Deploy container to Staging
+        run: |
+          docker run -d -p 3001:3000 \
+            -e NODE_ENV=staging \
+            -e DB_PASSWORD=${{ secrets.DB_PASSWORD_STAGING }} \
+            -e SECRET_KEY=${{ secrets.SECRET_KEY_STAGING }} \
+            -e API_KEY=${{ secrets.API_KEY_STAGING }} \
+            --name todo-staging \
+            ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
+
+      - name: Wait for application startup
+        run: |
+          echo "Waiting for the application to start..."
+          sleep 10
+
+      - name: Smoke test Staging - Health Check
+        uses: jtalk/url-health-check-action@v4
+        with:
+          url: http://localhost:3001/health
+          max-attempts: 10
+          retry-delay: 3s         
+          follow-redirect: true
+
+      - name: Smoke test Staging - Success message
+        if: success()
+        run: echo "Staging smoke test passed successfully"
 
   # ────────── Deploy Production ──────────
   deploy-production:
@@ -105,5 +129,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Deploy to Production
-        run: docker run -d -p 3000:3000 -e NODE_ENV=production -e DB_PASSWORD=${{ secrets.DB_PASSWORD_PROD }} -e SECRET_KEY=${{ secrets.SECRET_KEY_PROD }} -e API_KEY=${{ secrets.API_KEY_PROD }} ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
+      - name: Deploy container to Production
+        run: |
+          docker run -d -p 3000:3000 \
+            -e NODE_ENV=production \
+            -e DB_PASSWORD=${{ secrets.DB_PASSWORD_PROD }} \
+            -e SECRET_KEY=${{ secrets.SECRET_KEY_PROD }} \
+            -e API_KEY=${{ secrets.API_KEY_PROD }} \
+            --name todo-prod \
+            ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
+
+      - name: Wait for application startup
+        run: |
+          echo "Waiting for the application to start..."
+          sleep 10
+
+      - name: Smoke test Production - Health Check
+        uses: jtalk/url-health-check-action@v4
+        with:
+          url: http://localhost:3000/health
+          max-attempts: 10
+          retry-delay: 3s
+          follow-redirect: true
+
+      - name: Smoke test Production - Success message
+        if: success()
+        run: echo "Production smoke test passed successfully"
