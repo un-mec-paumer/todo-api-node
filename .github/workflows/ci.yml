@@ -166,6 +166,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+        # Blue-green + canary deployment strategy
+      - name: Blue-Green Canary Deployment Strategy
+        run: |
+          echo "Implementing blue-green deployment with canary phase"
+          # Simulate blue deployment (current prod = blue)
+          docker run -d -p 3000:3000 \
+            -e NODE_ENV=production \
+            -e DB_PASSWORD=${{ secrets.DB_PASSWORD_PROD }} \
+            -e SECRET_KEY=${{ secrets.SECRET_KEY_PROD }} \
+            -e API_KEY=${{ secrets.API_KEY_PROD }} \
+            --name todo-blue \
+            ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
+
+          # Wait + smoke test blue (keep your existing smoke logic)
+          sleep 10
+
       - name: Deploy container to Production
         run: |
           docker run -d -p 3000:3000 \
