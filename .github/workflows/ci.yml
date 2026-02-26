@@ -2,7 +2,7 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [main, develop, feature/*]
+    branches: [main, develop, feature/reuseable-workflow]
   pull_request:
     branches: [main, develop]
 
