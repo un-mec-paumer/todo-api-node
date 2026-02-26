@@ -36,6 +36,30 @@ jobs:
       - name: Lint
         run: npm run lint
 
+  quality-gate:
+      runs-on: ubuntu-latest
+      needs: test
+      steps:
+          - name: Checkout code
+            uses: actions/checkout@v6
+          - name: Set up Node.js
+            uses: actions/setup-node@v6
+            with:
+                node-version: 24
+        
+          - name: Download coverage report
+            uses: actions/download-artifact@v4
+            with:
+                name: coverage-report
+                path: coverage/
+          - name: Install Dependencies
+            run: npm install
+          - name: SonarCloud Scan
+            uses: SonarSource/sonarqube-scan-action@v7.0.0
+            env:
+                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                SONAR_HOST_URL: https://sonarcloud.io
+
 # ────────── Tests & Coverage ──────────
   test:
     runs-on: ubuntu-latest
