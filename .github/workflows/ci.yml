@@ -12,11 +12,13 @@ jobs:
     uses: ./.github/workflows/discord.yml
     secrets:
         inherit
+
   # SonarCloud & Security Scan
   sonarcloud-security:
     uses: ./.github/workflows/sonarcloud.yml
     secrets:
         inherit
+        
   # ────────── Lint ──────────
   lint:
     runs-on: ubuntu-latest
@@ -129,27 +131,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Deploy container to Staging
+      - name: Wait for Render auto-deploy (staging)
         run: |
-          docker run -d -p 3001:3000 \
-            -e NODE_ENV=staging \
-            -e DB_PASSWORD=${{ secrets.DB_PASSWORD_STAGING }} \
-            -e SECRET_KEY=${{ secrets.SECRET_KEY_STAGING }} \
-            -e API_KEY=${{ secrets.API_KEY_STAGING }} \
-            --name todo-staging \
-            ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
-
-      - name: Wait for application startup
-        run: |
-          echo "Waiting for the application to start..."
-          sleep 10
+          echo "Assuming Render auto-deploys on push to develop - waiting for startup"
+          sleep 60  # Augmenté pour laisser Render rebuild/deploy (ajuste si besoin)
 
       - name: Smoke test Staging - Health Check
         uses: jtalk/url-health-check-action@v4
         with:
-          url: http://localhost:3001/health
+          url: https://todo-api-node-staging-09fu.onrender.com/health
           max-attempts: 10
-          retry-delay: 3s         
+          retry-delay: 3s
           follow-redirect: true
 
       - name: Smoke test Staging - Success message
@@ -166,41 +158,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-        # Blue-green + canary deployment strategy
       - name: Blue-Green Canary Deployment Strategy
         run: |
           echo "Implementing blue-green deployment with canary phase"
-          # Simulate blue deployment (current prod = blue)
-          docker run -d -p 3000:3000 \
-            -e NODE_ENV=production \
-            -e DB_PASSWORD=${{ secrets.DB_PASSWORD_PROD }} \
-            -e SECRET_KEY=${{ secrets.SECRET_KEY_PROD }} \
-            -e API_KEY=${{ secrets.API_KEY_PROD }} \
-            --name todo-blue \
-            ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
-
-          # Wait + smoke test blue (keep your existing smoke logic)
-          sleep 10
-
-      - name: Deploy container to Production
-        run: |
-          docker run -d -p 3000:3000 \
-            -e NODE_ENV=production \
-            -e DB_PASSWORD=${{ secrets.DB_PASSWORD_PROD }} \
-            -e SECRET_KEY=${{ secrets.SECRET_KEY_PROD }} \
-            -e API_KEY=${{ secrets.API_KEY_PROD }} \
-            --name todo-prod \
-            ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
-
-      - name: Wait for application startup
-        run: |
-          echo "Waiting for the application to start..."
-          sleep 10
+          # Pas de docker run local - Render gère l'auto-deploy sur push main
+          echo "Assuming Render auto-deploys with blue-green if configured"
+          sleep 60  # Wait pour Render rebuild/deploy
 
       - name: Smoke test Production - Health Check
         uses: jtalk/url-health-check-action@v4
         with:
-          url: http://localhost:3000/health
+          url: https://todo-api-node-bnce.onrender.com/health
           max-attempts: 10
           retry-delay: 3s
           follow-redirect: true
