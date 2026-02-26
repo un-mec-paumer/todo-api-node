@@ -88,6 +88,9 @@ jobs:
       - name: Run tests with coverage
         run: npm test --coverage
 
+      - name: API Contract Validation with Spectral
+        run: npx spectral lint docs/swagger.js || echo "OpenAPI spec has lint issues but not failing the build"
+
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
         with:
