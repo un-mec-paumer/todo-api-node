@@ -1,5 +1,12 @@
 const path = require("node:path");
 const dotenv = require("dotenv");
+const Sentry = require("@sentry/node");
+
+// Initialiser Sentry
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  tracesSampleRate: 1.0,
+});
 
 // Charger le fichier .env correspondant à NODE_ENV
 const envFile = path.resolve(__dirname, `.env.${process.env.NODE_ENV || "development"}`);
@@ -12,6 +19,8 @@ const todoRouter = require("./routes/todo");
 
 const app = express();
 app.use(express.json());
+
+Sentry.setupExpressErrorHandler(app);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
