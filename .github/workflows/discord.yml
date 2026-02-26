@@ -10,7 +10,5 @@ jobs:
         uses: appleboy/discord-action@v1.2.0
         with:
           webhook_url: ${{ secrets.WEBHOOK_URL }}
-        #   webhook_id: ${{ secrets.WEBHOOK_ID }}
-        #   webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
           message: ${{ github.actor }} a ${{ github.event_name }} dans le repo ${{ github.repository }}  avec le commit ${{ github.sha }} sur la ${{ github.ref }}
           username: github-actions
