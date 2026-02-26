@@ -1,5 +1,5 @@
 name: discord message
-on: [push]
+on: workflow_call
 jobs:
   build:
     name: Build
@@ -10,4 +10,5 @@ jobs:
         uses: appleboy/discord-action@v1.2.0
         with:
           webhook_url: ${{ secrets.WEBHOOK_URL }}
-          message: The ${{ github.event_name }} event triggered first step.
+          message: ${{ github.actor }} a ${{ github.event_name }} dans le repo ${{ github.repository }}  avec le commit ${{ github.sha }} sur la ${{ github.ref }}
+          username: github-actions
