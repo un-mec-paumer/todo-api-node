@@ -7,6 +7,11 @@ on:
     branches: [main, develop]
 
 jobs:
+  # Notify Discord
+  discord-notify:
+    uses: ./.github/workflows/discord.yml
+    secrets:
+        inherit
   # ────────── Lint ──────────
   lint:
     runs-on: ubuntu-latest
