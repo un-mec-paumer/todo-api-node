@@ -2,7 +2,8 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [main, develop, feature/reusable-workflow]
+    # branches: [main, develop, feature/reusable-workflow]
+    branches: [feature/reusable-workflows]
   pull_request:
     branches: [main, develop]
 
