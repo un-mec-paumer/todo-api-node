@@ -18,7 +18,7 @@ jobs:
     uses: ./.github/workflows/sonarcloud.yml
     secrets:
         inherit
-        
+        s
   # ────────── Lint ──────────
   lint:
     runs-on: ubuntu-latest
@@ -70,7 +70,6 @@ jobs:
       fail-fast: false            
       matrix:
         node-version:
-          - 20
           - 22
           - 24
 
